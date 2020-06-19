@@ -1,0 +1,13 @@
+table{
+    max-width: 600px;
+
+}
+table,tr,th,td{
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px 10px;
+}
+.img-wrapper{
+    width:150px;
+    height: 100px;
+}
