@@ -1,20 +1,32 @@
-//Load cats information from the cat-data.json file using AJAX request
-function loadCatData() {
-    //Make AJAX request
-    $.ajax({
-        url : './cat_data/data/cat_data.json' ,
-        type: 'GET',
-        success: function (response) {
-            $('#table').empty();
-            $('#table').append('<tr><th>Cat breed</th><th>Cat image</th></tr>')
-            for(var i = 0;i<response['breeds'].length;i++){
-                $('#table').append('<tr><td>'+response['breeds'][i]['breed-name']+'</td><td><div class="img-wrapper"><img src="cat_data/images/cats/'+response['breeds'][i]['pictures']['80x80']+'" width="100%" height="100%"></div></td></tr>')
-            }
-        },
-        error: function (error) {
-            alert('error')
+"use strict";
+$(function() {
+    $.getJSON("cat_data/data/cat_data.json", displayCats);
+});
 
+function displayCats(data) {
+    let $table = $("<table></table>");
+    $table.appendTo("main");
+    let breeds = data.breeds;
+    console.log(breeds)
+    breeds.forEach(function (breed, index) {
+            $table.append(
+                `<tr> 
+                <td>
+                <a href="details.html" data-index="${index}">${breed.breed_name}</a> 
+                </td> 
+                <td>
+                <a href="details.html" data-index="${index}">
+                     <img src="cat_data/images/cats/${breed.pictures.small}" 
+                        alt="${breed.breed_name}" class="thumb">
+                    </a> 
+                </td>
+            </tr>`
+            );
         }
+    );
 
-    })
+    $("table a").click(function(){
+        let index = $(this).data("index");
+        localStorage["breed"] = JSON.stringify(breeds[index]);
+    });
 }
